@@ -42,7 +42,7 @@ int main()
 		//Guardar cada x ciclos el fractal
 		if(cont%CICLES == 0)
 		{
-			FILE *p = fopen("fractalStep" + cont + ".txt", "w");
+			FILE *p = fopen("fractalCicle" + cont + ".txt", "w");
 			for(int i = 0; i < DIM; i++)
 			{
 				for(int ii = 0; ii < DIM; ii++)
