@@ -7,6 +7,7 @@
 
 using namespace std;
 
+int cont = 0;
 const char fl[] = "Text.txt";
 
 vector<puntos> fractal[DIM][DIM];
@@ -32,5 +33,30 @@ int main()
 			for (int iii = 0; iii < fractal[i][ii].size(); iii++)
 				printf("POINT %f %f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
 		}
+
+	//////Actualizado por Luis///////
+	while(cont<TOTAL_CICLES)
+	{
+		//Generacion de punto y radio
+		fractal = erasePoints(center, radius, fractal);
+		//Guardar cada x ciclos el fractal
+		if(cont%CICLES == 0)
+		{
+			FILE *p = fopen("fractalStep" + cont + ".txt", "w");
+			for(int i = 0; i < DIM; i++)
+			{
+				for(int ii = 0; ii < DIM; ii++)
+				{
+					for(int iii = 0; iii < vec[i][ii].size; iii++)
+					{
+						fprintf(p, "%f\t%f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
+					}
+				}
+			}
+		}
+		cont++;
+		}
+	}
+
 	system("pause");
 }
