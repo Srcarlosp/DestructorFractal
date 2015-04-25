@@ -28,6 +28,5 @@ vector<puntos> erasePoints(struct puntos center, float radius, vector<puntos> (*
 		}
 	}
 
-	return vec;
 }
 
