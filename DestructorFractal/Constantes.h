@@ -2,12 +2,12 @@
 
 //La dimencion debe ser simepre 2^n siendo n cualquier entero 
 const int DIM = 8;
-const float SCALE = 0.0001;//Añadido por Luis, escala del fractal
-const int CICLES = 20;//Añadido por Luis, numero de bombardeos entre ficheros
-const int TOTAL_CICLES = 1000;//Añadido por Luis, numero total de bombardeos 
-const int NUM_CIRCLES = 1000;//Añadido por Luis, numero total de bombas generadas
-const int MU = 0;//Añadido por Luis
-const int SIGMA = 1;//Añadido por Luis
+const float SCALE = 0.0001;
+const int CICLES = 20;
+const int TOTAL_CICLES = 1000;
+const int NUM_CIRCLES = 1000;
+const float MU = 0.125;
+const float SIGMA = 0.2;
 
 struct puntos
 {
@@ -23,7 +23,7 @@ struct flowPoint
 	int deep = 0;
 };
 
-struct circle//Añadido por Luis
+struct circle
 {
     puntos center;
     float radius;

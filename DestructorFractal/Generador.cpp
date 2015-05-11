@@ -24,7 +24,14 @@ circle * randGenerator(float mu, float sigma)
     seed = rand();
     
     for (i = 0; i < NUM_CIRCLES; i++) {
-        list_circles[i].radius = sigma * r4_nor ( &seed, kn, fn, wn ) + mu ;
+
+        //Truncated normal distribution between 0 and 0.25
+        do{
+            num = r4_nor ( &seed, kn, fn, wn );
+            list_circles[i].radius = ( sigma * num ) + mu;
+
+        }while(num > 0 && num < 0.25);
+        
         list_circles[i].center.x = r4_uni ( &seed );
         list_circles[i].center.y = r4_uni ( &seed ); 
         //printf ( " %14f\t%14f\n%14f\n", list_circles[i].radio, list_circles[i].center.x, list_circles[i].center.y );

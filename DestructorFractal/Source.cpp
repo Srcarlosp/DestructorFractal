@@ -1,21 +1,18 @@
-
-///Proguntar lo de la distribución normal para numeros negativos
-///Pasar el archivo con un indicador del ciclo
-///Carlos terminar unas cosas
-
 #include <vector>
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
+#include <string>
 #include "Preparacion.h"
 #include "Constantes.h"
 #include "Generador.h"
 #include "Tratamiento.h"
 
-#define STR(x) x 
-
 using namespace std;
 
 int cont = 0;
+int cont1 = 0;
+char char_cont[1000];
 const char fl[] = "Text.txt";
 
 vector<puntos> fractal[DIM][DIM];
@@ -24,11 +21,9 @@ vector<flowPoint> flow;
 int main()
 {
 
-
-	//////Actualizado por Luis///////
 	circle *list_circles;
 
-	list_circles= randGenerator(MU, SIGMA);
+	list_circles = randGenerator(MU, SIGMA);
 
 	prepareFile(fl, fractal);
 	for (int i = 0; i < fractal[0][0].size(); i++)
@@ -49,15 +44,18 @@ int main()
 				printf("POINT %f %f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
 		}
 
-	//////Actualizado por Luis///////
 	for(cont = 0; cont<TOTAL_CICLES; cont++)
 	{
 		erasePoints(list_circles[cont].center, list_circles[cont].radius, fractal);
 
-		//Guardar cada x ciclos el fractal
-		if(cont%CICLES == 0)
+		if(cont%CICLES == 0 && cont != 0)
 		{
-			FILE *p = fopen("fractalCicle.txt", "w");///////Mirar para cambiar de int a string
+			std::string name0 = "Fractal_Cicle_" + std::to_string(cont) + ".txt";
+			FILE * p = fopen( name0.data(), "w");
+
+			std::string name1 = "Circles_" + std::to_string(cont) + ".txt";
+			FILE * q = fopen( name1.data(), "w");
+
 			for(int i = 0; i < DIM; i++)
 			{
 				for(int ii = 0; ii < DIM; ii++)
@@ -65,9 +63,14 @@ int main()
 					for(int iii = 0; iii < fractal[i][ii].size(); iii++)
 					{
 						fprintf(p, "%f\t%f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
+						for(cont1 = cont - CICLES + 1; cont1 <= cont; cont1++)
+							fprintf(q, "%f\t%f\t%f\n", list_circles[cont1].center.x, list_circles[cont1].center.y, list_circles[cont1].radius);
+
 					}
 				}
 			}
+			fclose(p);
+			fclose(q);
 		}
 		
 	}
