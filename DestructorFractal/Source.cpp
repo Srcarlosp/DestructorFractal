@@ -44,11 +44,11 @@ int main()
 				printf("POINT %f %f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
 		}
 
-	for(cont = 0; cont<TOTAL_CICLES; cont++)
+	for(cont = 0; cont<TOTAL_CICLES; cont++) //Numero total de ciclos de borrado
 	{
 		erasePoints(list_circles[cont].center, list_circles[cont].radius, fractal);
 
-		if(cont%CICLES == 0 && cont != 0)
+		if(cont%CICLES == 0 && cont != 0) //Guardar los datos cada n ciclos de todo el proceso en un documento 
 		{
 			std::string name0 = "Fractal_Cicle_" + std::to_string(cont) + ".txt";
 			FILE * p = fopen( name0.data(), "w");
@@ -62,9 +62,9 @@ int main()
 				{
 					for(int iii = 0; iii < fractal[i][ii].size(); iii++)
 					{
-						fprintf(p, "%f\t%f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
+						fprintf(p, "\t%f\t%f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
 						for(cont1 = cont - CICLES + 1; cont1 <= cont; cont1++)
-							fprintf(q, "%f\t%f\t%f\n", list_circles[cont1].center.x, list_circles[cont1].center.y, list_circles[cont1].radius);
+							fprintf(q, "\t%f\t%f\t%f\n", list_circles[cont1].center.x, list_circles[cont1].center.y, list_circles[cont1].radius);
 
 					}
 				}
