@@ -40,14 +40,6 @@ vector <punto> eraseFlow(struct puntos center, float radius, vector<puntos>(*vec
 	}
 
 	vector<punto> flow;
-	/*
-	for (int i = rminx; i < (rmaxx); i++)
-		for (int j = rminy; j < rmaxy; j++)
-		{
-			punto p(i, j);
-			flow.push_back(p);
-		}
-	*/
 
 	for (int i = rminx; i < (rminx + seccion); i++)
 		for (int j = rminy; j < rmaxy; j++)

@@ -14,6 +14,7 @@
 #include "glut.h"
 #include "Ojos.h"
 
+
 int j = 0;
 circle *list_circles;
 void iterations();
@@ -38,7 +39,6 @@ using namespace std;
 int cont = 0;
 int cont1 = 0;
 char char_cont[1000];
-const char fl[] = "Text.txt";
 
 vector<puntos> fractal[DIM][DIM];
 vector<flowPoint> flow;
@@ -51,104 +51,35 @@ int main(int argc, char* argv[])
 	//Abre la ventana y GL
 	inicializaVentana(argc, argv);
 
-
-	////////////////////////////////////////////////////////////
-	////						FLUJO						////
-	
 	//////////////////////////////////////////////////////
 	//					Inicializacion					//
-	//circle *list_circles;
 
-	list_circles = randGenerator(MU, SIGMA);
-
-	prepareFile(fl, fractal);
-	for (int i = 0; i < fractal[0][0].size(); i++)
-	{
-		printf("Hola mundo %f %f\n", fractal[0][0][i].x, fractal[0][0][i].y);
-	}
+	//Segmentacion
+	prepareFile("Text.txt", fractal);
 	flow = flowControlGenerator(DIM);
 	for (int i = 0; i < flow.size(); i++)
 	{
-		printf("Hola mundo %d %d %d %d\n", flow[i].dim, flow[i].x, flow[i].y, flow[i].deep);
 		segmentPropagation(fractal, flow[i]);
 	}
-	for (int i = 0; i < DIM; i++)
-		for (int ii = 0; ii < DIM; ii++)
-		{
-			printf("\nVECTOR %d %d\n\n", i, ii);
-			for (int iii = 0; iii < fractal[i][ii].size(); iii++)
-				printf("POINT %f %f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
-		}
-	
-	//////////////////////////////////////////////////////
-	//iterations();
 
-	//puntos centro;
-	//centro.x = centro.y = 0.5;
-
-	//erasePoints(eraseFlow(centro, 0.2, fractal), fractal, centro, 0.2);
-
-	
-	for(cont = 0; cont<TOTAL_CICLES; cont++) //Numero total de ciclos de borrado
+	//Borrado
+	list_circles = randGenerator(MU, SIGMA);
+	for(cont = 0; cont<TOTAL_CICLES; cont++)
 	{
 		erasePoints(eraseFlow(list_circles[cont].center, list_circles[cont].radius, fractal), fractal, list_circles[cont].center, list_circles[cont].radius);
 
 		printf("CIRCULO %f %f %f\n", list_circles[cont].center.x, list_circles[cont].center.y, list_circles[cont].radius);
-		
-		/*
-		if(cont%CICLES == 0 && cont != 0) //Guardar los datos cada n ciclos de todo el proceso en un documento 
-		{
-			std::string name0 = "Fractal_Cicle_" + std::to_string(cont) + ".txt";
-			FILE * p = fopen( name0.data(), "w");
-
-			std::string name1 = "Circles_" + std::to_string(cont) + ".txt";
-			FILE * q = fopen( name1.data(), "w");
-
-			for(int i = 0; i < DIM; i++)
-			{
-				for(int ii = 0; ii < DIM; ii++)
-				{
-					for(int iii = 0; iii < fractal[i][ii].size(); iii++)
-					{
-						fprintf(p, "\t%f\t%f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
-						for(cont1 = cont - CICLES + 1; cont1 <= cont; cont1++)
-							fprintf(q, "\t%f\t%f\t%f\n", list_circles[cont1].center.x, list_circles[cont1].center.y, list_circles[cont1].radius);
-
-					}
-				}
-			}
-		}
-		fclose(p);
-		fclose(q);
-		*/
 	}
 
-
-	//////////////////////////////////////////////////////
-
-	//////////////////////////////////////////////////////
-	//				Interfaz Grafica					//
-
+	//Entra en el bucle de dibujo
 	glutMainLoop();
 
-	//////////////////////////////////////////////////////
 }
-
-//////////////////////////////////////////////////////
-//				Iteraciones							//
-
-void iterations()
-{
-	
-	erasePoints(eraseFlow(list_circles[j].center, list_circles[j].radius, fractal), fractal, list_circles[j].center, list_circles[j].radius);
-	
-}
-
-//////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////
 //				Funciones de GLUT					//
 
+//Dibujo
 void OnDraw(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Para definir el punto de vista
 	glMatrixMode(GL_MODELVIEW);
@@ -178,7 +109,7 @@ void OnDraw(void) {
 
 	glutSwapBuffers(); //Cambia los buffer de dibujo, no borrar esta linea ni poner nada despues
 }
-
+//Actualizacion de pantalla
 void OnTimer(int value) //poner aqui el codigo de animacion
 {
 
@@ -188,15 +119,24 @@ void OnTimer(int value) //poner aqui el codigo de animacion
 	glutPostRedisplay(); //Actualizacion de pantalla
 
 }
-
+//Interfaz
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	if (key == 'n')
 	{
 		j++;
 		iterations();
-	}
-		
+	}	
+}
+
+//////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////
+//				Funciones de Main					//
+
+void iterations()
+{
+	erasePoints(eraseFlow(list_circles[j].center, list_circles[j].radius, fractal), fractal, list_circles[j].center, list_circles[j].radius);
 }
 
 //////////////////////////////////////////////////////
