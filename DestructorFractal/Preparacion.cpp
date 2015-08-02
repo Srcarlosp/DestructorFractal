@@ -17,7 +17,7 @@ int prepareFile(const char *file, vector<puntos> (*vec)[DIM]) //Abre el archivo 
 
 int segmentPropagation(vector<puntos> (*vec)[DIM], flowPoint flow) //Funcion de propagacion de segmentos
 {
-	register vector<puntos> originalV = vec[flow.x][flow.y];;
+	register vector<puntos> originalV = vec[flow.x][flow.y];
 	int originalS = vec[flow.x][flow.y].size();
 	vec[flow.x][flow.y].clear();
 
