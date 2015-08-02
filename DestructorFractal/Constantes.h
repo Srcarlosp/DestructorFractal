@@ -7,7 +7,7 @@ const float LENGTH = 1 / DIM; //Longitud de las divisiones
 const int CICLES = 20;
 const int TOTAL_CICLES = 1000;
 const int NUM_CIRCLES = 1000; //Número de círculos para eliminar puntos
-const float MU = 0.125;
+const float MU = 0.5;
 const float SIGMA = 0.2;
 
 //Constantes de ventana

@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 	//					Inicializacion					//
 	circle *list_circles;
 
-	//list_circles = randGenerator(MU, SIGMA);
+	list_circles = randGenerator(MU, SIGMA);
 
 	prepareFile(fl, fractal);
 	for (int i = 0; i < fractal[0][0].size(); i++)
@@ -80,10 +80,10 @@ int main(int argc, char* argv[])
 
 
 	for(cont = 0; cont<TOTAL_CICLES; cont++) //Numero total de ciclos de borrado
-
 	{
 		erasePoints(list_circles[cont].center, list_circles[cont].radius, fractal);
-
+		
+		/*
 		if(cont%CICLES == 0 && cont != 0) //Guardar los datos cada n ciclos de todo el proceso en un documento 
 		{
 			std::string name0 = "Fractal_Cicle_" + std::to_string(cont) + ".txt";
@@ -105,16 +105,21 @@ int main(int argc, char* argv[])
 					}
 				}
 			}
-			fclose(p);
-			fclose(q);
 		}
-		
+		fclose(p);
+		fclose(q);
+		*/
 	}
 	
 
 	//////////////////////////////////////////////////////
 
+	//////////////////////////////////////////////////////
+	//				Interfaz Grafica					//
+
 	glutMainLoop();
+
+	//////////////////////////////////////////////////////
 }
 
 //////////////////////////////////////////////////////

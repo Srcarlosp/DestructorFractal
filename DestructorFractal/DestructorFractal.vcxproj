@@ -81,7 +81,7 @@
     <ClCompile Include="Preparacion.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Tratamiento.cpp" />
-    <ClCompile Include="ziggurat.c" />
+    <ClCompile Include="ziggurat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constantes.h" />
