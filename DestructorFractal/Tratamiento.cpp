@@ -1,36 +1,91 @@
-#include "Constantes.h"
 #include "Tratamiento.h"
-
-#include <vector>
-#include <iostream>
 
 using namespace std;
 
-void erasePoints(struct puntos center, float radius, vector<puntos> (*vec)[DIM])
-{	
+vector <punto> eraseFlow(struct puntos center, float radius)
+{
+	printf("Hola mundo %f %f %f\n", center.x, center.y, radius);
 
-	int maxx, maxy, minx, miny, vsize;
-	vector<puntos> auxvec;
+	//Se calculan un cuadrado que inscriba a la circunferencia
+	int maxx, maxy, minx, miny;
+	int rmaxx, rmaxy, rminx, rminy;
+	maxx = floor((float)(center.x + radius) * DIM);
+	maxy = floor((float)(center.y + radius) * DIM); 
+	minx = floor((float)(center.x - radius) * DIM); 
+	miny = floor((float)(center.y - radius) * DIM);
 
-//Determinacion de los extremos de los círculos redondeando para sobredimensionarlo
-	maxx = (int) ((center.x + radius) / (LENGTH)); //+ 1; //Se divide el punto más alejado, centro + radio, entre la longitud de la división, para obtener un número entero que indique el cuadrado al que pertenece
-	maxy = (int) ((center.y + radius) / (LENGTH)); //+ 1; //Conforme a la nomenclatura de la cuadrícula no haría falta sumar uno para redondear por lo alto
-	minx = (int) ((center.x - radius) / (LENGTH)); //No haría falta restar uno para redondear por lo bajo
-	miny = (int) ((center.y - radius) / (LENGTH));
-//Borrar los puntos por fuera del cuadrado, copiandolos en otro vector que luego reemplaza al del vector fractal
-	for(int i = minx; i <= maxx; i++)
+	rmaxx = maxx < 1 ? maxx : DIM-1;
+	rmaxy = maxy < 1 ? maxy : DIM-1;
+	rminx = minx > 0 ? minx : 0;
+	rminy = miny > 0 ? miny : 0;
+
+	//Se calcula el cuadrado inscrito en la circunferencia a partir de los datos del lado y el radio
+	int w = maxx - minx, h = maxy - miny;
+	int seccion;
+
+	if (w == h)
 	{
-		for(int ii = miny; ii <= maxy; ii++)
+		seccion = ceil((float) w/2 - (radius * DIM * 0.7)); //Se calcula la mitad del lado y se resta una aproximacion del radio medido sobre la diagonal proyectado sobre el lado
+	}
+
+	vector<punto> flow;
+
+	for (int i = rminx; i < (rmaxx); i++)
+		for (int j = rminy; j < rmaxy; j++)
 		{
-			vsize = vec[i][ii].size();
-			for(int iii = 0; iii < vsize; iii++)
-			{
-				if(sqrt( (vec[i][ii][iii].x - center.x) * (vec[i][ii][iii].x - center.x) + (vec[i][ii][iii].y - center.y) * (vec[i][ii][iii].y - center.y)) > radius)	
-					auxvec.push_back(vec[i][ii][iii]); //Se guardan todos los puntos de fuera del círculo
-				
-			}
-			vec[i][ii].swap(auxvec); //Intercambia los valores de un vector por los del otro
+			punto p(i, j);
+			flow.push_back(p);
 		}
+
+	/*
+	for (int i = rminx; i < (rminx + seccion); i++)
+		for (int j = rminy; j < rmaxy; j++)
+		{
+			punto p(i, j);
+			flow.push_back(p);
+		}
+	for (int i = (rmaxx - seccion); i < rmaxx; i++)
+		for (int j = rminy; j < rmaxy; j++)
+		{
+			punto p(i, j);
+			flow.push_back(p);
+		}
+
+	for (int i = (rminx + seccion); i < (rmaxx - seccion); i++)
+		for (int j = rminy; j < (rminy + seccion); j++)
+		{
+			punto p(i, j);
+			flow.push_back(p);
+		}
+	for (int i = (rminx + seccion); i < (rmaxx - seccion); i++)
+		for (int j = (rmaxy - seccion); j < rmaxy; j++)
+		{
+			punto p(i, j);
+			flow.push_back(p);
+		}
+	*/
+
+	printf("Hola mundo\n %d\n %d\n %d\n %d\n", rmaxx, rmaxy, rminx, rminy);
+
+	return flow;
+
+}
+
+void erasePoints(vector<punto> flow, vector<puntos>(*vec)[DIM], puntos center, float radius)
+{		
+	int flowSize;
+	flowSize = flow.size();
+	for(int i = 0; i < flowSize; i++)
+	{
+		int vsize;
+		vector<puntos> auxvec;
+		vsize = vec[flow[i].x][flow[i].y].size();
+		for(int iii = 0; iii < vsize; iii++)
+		{
+			if (sqrt((vec[flow[i].x][flow[i].y][iii].x - center.x) * (vec[flow[i].x][flow[i].y][iii].x - center.x) + (vec[flow[i].x][flow[i].y][iii].y - center.y) * (vec[flow[i].x][flow[i].y][iii].y - center.y)) > radius)
+				auxvec.push_back(vec[flow[i].x][flow[i].y][iii]); //Se guardan todos los puntos de fuera del círculo
+		}
+		vec[flow[i].x][flow[i].y].swap(auxvec); //Intercambia los valores de un vector por los del otro
 	}
 
 }

@@ -1,8 +1,7 @@
 #pragma once
 
 //La dimension debe ser simepre 2^n siendo n cualquier entero 
-const int DIM = 8;	//Numero de divisiones de la cuadrícula
-const float LENGTH = 1 / DIM; //Longitud de las divisiones
+const int DIM = 256;	//Numero de divisiones de la cuadrícula
 
 const int CICLES = 20;
 const int TOTAL_CICLES = 1000;
@@ -24,6 +23,18 @@ struct puntos
 {
 	float x = 0;
 	float y = 0;
+};
+
+class punto
+{
+public :
+	int x;
+	int y;
+	punto(int xx, int yy)
+	{
+		x = xx;
+		y = yy;
+	}
 };
 
 struct flowPoint
