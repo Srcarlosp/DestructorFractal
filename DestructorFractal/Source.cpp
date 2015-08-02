@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
 	puntos centro;
 	centro.x = centro.y = 0.5;
 
-	erasePoints(eraseFlow(centro, 0.2), fractal, centro, 0.2);
+	erasePoints(eraseFlow(centro, 0.2, fractal), fractal, centro, 0.2);
 
 	/*
 	for(cont = 0; cont<TOTAL_CICLES; cont++) //Numero total de ciclos de borrado
