@@ -14,14 +14,14 @@ vector <punto> eraseFlow(struct puntos center, float radius, vector<puntos>(*vec
 	minx = floor((float)(center.x - radius) * DIM); 
 	miny = floor((float)(center.y - radius) * DIM);
 
-	printf("Hola mundo\n %d\n %d\n %d\n %d\n", maxx, maxy, minx, miny);
+	//printf("Hola mundo\n %d\n %d\n %d\n %d\n", maxx, maxy, minx, miny);
 
 	rmaxx = maxx < DIM ? maxx : DIM-1;
 	rmaxy = maxy < DIM ? maxy : DIM-1;
 	rminx = minx > 0 ? minx : 0;
 	rminy = miny > 0 ? miny : 0;
 
-	printf("Hola mundo\n %d\n %d\n %d\n %d\n", rmaxx, rmaxy, rminx, rminy);
+	//printf("Hola mundo\n %d\n %d\n %d\n %d\n", rmaxx, rmaxy, rminx, rminy);
 
 	//Se calcula el cuadrado inscrito en la circunferencia a partir de los datos del lado y el radio
 	int w = maxx - minx, h = maxy - miny;
@@ -30,6 +30,13 @@ vector <punto> eraseFlow(struct puntos center, float radius, vector<puntos>(*vec
 	if (w == h)
 	{
 		seccion = ceil((float) w/2 - (radius * DIM * 0.7)); //Se calcula la mitad del lado y se resta una aproximacion del radio medido sobre la diagonal proyectado sobre el lado
+	}
+	else
+	{
+		if (h < w)
+			seccion = ceil((float) h/ 2 - (radius * DIM * 0.7));
+		else
+			seccion = ceil((float) w/ 2 - (radius * DIM * 0.7));
 	}
 
 	vector<punto> flow;
@@ -68,7 +75,7 @@ vector <punto> eraseFlow(struct puntos center, float radius, vector<puntos>(*vec
 			flow.push_back(p);
 		}
 
-	printf("seccion %d\n", seccion);
+	//printf("seccion %d\n", seccion);
 
 	for (int i = (rminx + seccion); i < (rmaxx - seccion); i++)
 		for (int j = (rminy + seccion); j < (rmaxy - seccion); j++)

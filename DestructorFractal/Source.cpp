@@ -14,6 +14,10 @@
 #include "glut.h"
 #include "Ojos.h"
 
+int j = 0;
+circle *list_circles;
+void iterations();
+
 //////////////////////////////////////////////////////////
 //				Inicializacion ventana					//
 
@@ -53,7 +57,7 @@ int main(int argc, char* argv[])
 	
 	//////////////////////////////////////////////////////
 	//					Inicializacion					//
-	circle *list_circles;
+	//circle *list_circles;
 
 	list_circles = randGenerator(MU, SIGMA);
 
@@ -77,20 +81,21 @@ int main(int argc, char* argv[])
 		}
 	
 	//////////////////////////////////////////////////////
+	//iterations();
 
-	puntos centro;
-	centro.x = centro.y = 0.5;
+	//puntos centro;
+	//centro.x = centro.y = 0.5;
 
-	erasePoints(eraseFlow(centro, 0.2, fractal), fractal, centro, 0.2);
+	//erasePoints(eraseFlow(centro, 0.2, fractal), fractal, centro, 0.2);
 
-	/*
+	
 	for(cont = 0; cont<TOTAL_CICLES; cont++) //Numero total de ciclos de borrado
 	{
-		erasePoints(list_circles[cont].center, list_circles[cont].radius, fractal);
+		erasePoints(eraseFlow(list_circles[cont].center, list_circles[cont].radius, fractal), fractal, list_circles[cont].center, list_circles[cont].radius);
 
-		printf("Hola mundo %f %f %f\n", list_circles[cont].center.x, list_circles[cont].center.y, list_circles[cont].radius);
+		printf("CIRCULO %f %f %f\n", list_circles[cont].center.x, list_circles[cont].center.y, list_circles[cont].radius);
 		
-
+		/*
 		if(cont%CICLES == 0 && cont != 0) //Guardar los datos cada n ciclos de todo el proceso en un documento 
 		{
 			std::string name0 = "Fractal_Cicle_" + std::to_string(cont) + ".txt";
@@ -115,9 +120,9 @@ int main(int argc, char* argv[])
 		}
 		fclose(p);
 		fclose(q);
-		
+		*/
 	}
-	*/
+
 
 	//////////////////////////////////////////////////////
 
@@ -128,6 +133,18 @@ int main(int argc, char* argv[])
 
 	//////////////////////////////////////////////////////
 }
+
+//////////////////////////////////////////////////////
+//				Iteraciones							//
+
+void iterations()
+{
+	
+	erasePoints(eraseFlow(list_circles[j].center, list_circles[j].radius, fractal), fractal, list_circles[j].center, list_circles[j].radius);
+	
+}
+
+//////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////
 //				Funciones de GLUT					//
@@ -174,12 +191,12 @@ void OnTimer(int value) //poner aqui el codigo de animacion
 
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
-	if (key == 'r') vista.dif -= 0.001;
-	if (key == 'f') vista.dif += 0.001;
-	if (key == 't') vista.d += 1;
-	if (key == 'g') vista.d -= 1;
-	if (key == 'w') vista.o_y += 1;
-	if (key == 's') vista.o_y -= 1;
+	if (key == 'n')
+	{
+		j++;
+		iterations();
+	}
+		
 }
 
 //////////////////////////////////////////////////////
