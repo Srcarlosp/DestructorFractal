@@ -4,6 +4,9 @@
 
 using namespace std;
 
+void createNamesFile(const char *file);//Crea el archivo contenedor de los nombres de los fractales
+void createNamesList(const char *file, vector<char *> *names);//Crea un array de nombres de todos los fractales
+
 int prepareFile(const char *file, vector<puntos>(*vec)[DIM]); //Abre el archivo fractal y lo pone en la esquina superior de la matriz fractal
 
 /*

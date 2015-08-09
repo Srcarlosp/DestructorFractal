@@ -1,0 +1,10 @@
+fractal10_82.txt
+fractal11_82.txt
+fractal12_82.txt
+fractal13_82.txt
+fractal14_82.txt
+fractal15_82.txt
+fractal16_82.txt
+fractal17_82.txt
+fractal18_82.txt
+fractal19_82.txt

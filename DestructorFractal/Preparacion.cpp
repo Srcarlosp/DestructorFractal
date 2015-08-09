@@ -3,8 +3,50 @@
 #include "Constantes.h"
 #include <vector>
 #include <cstdio>
+#include <cstring>
 
 using namespace std;
+
+
+void createNamesFile(const char *file)
+{
+    int i, j, k, num[LEN], dim[LEN];
+    FILE *p;
+    for(i=10; i<20; i++){
+        num[i-10] = i;
+        dim[i-10] = 82;
+    }
+    
+    p = fopen(file , "w");
+    
+    for(j=0;j<NUM;j++)
+        for(k=0; k<10; k++)
+            fprintf(p, "fractal%d_%d.txt\n", num[k], dim[j]);
+    
+    fclose(p);
+    
+}
+
+void createNamesList(const char *file, vector<char *> *names)
+{
+    int i;
+    FILE *p;
+    
+    p = fopen(file , "r");
+    
+    for(i=0; i<NUM_FRACTALS; i++)
+    {
+		names->push_back(new char[LEN + 1]);
+		char tempchar[LEN + 1];
+        fscanf(p, "%s\n", tempchar);
+		strcpy((*names)[(names->size())-1], tempchar);
+		printf("%d\n", (names->size()) - 1);
+    }	
+    
+    fclose(p);
+    
+}
+
 
 int prepareFile(const char *file, vector<puntos> (*vec)[DIM]) //Abre el archivo fractal y lo pone en la esquina superior de la matriz fractal
 {

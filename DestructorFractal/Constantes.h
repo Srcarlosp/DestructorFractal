@@ -5,9 +5,14 @@ const int DIM = 256;	//Numero de divisiones de la cuadrícula
 
 const int CICLES = 20;
 const int TOTAL_CICLES = 10;
-const int NUM_CIRCLES = 100; //Número de círculos para eliminar puntos
+const int NUM_CIRCLES = 1000; //Número de círculos para eliminar puntos
 const float MU = 0.05;
 const float SIGMA = 0.02;
+
+//Constantes Preparacion De Archivo
+const int LEN = 100;
+const int NUM_FRACTALS = 10;
+const int NUM = 1;
 
 //Constantes de ventana
 #define WWW 800.0F
