@@ -76,18 +76,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="boxCountingClean.cpp" />
     <ClCompile Include="Generador.cpp" />
+    <ClCompile Include="getopt.c" />
     <ClCompile Include="Ojos.cpp" />
+    <ClCompile Include="OpenGL.cpp" />
     <ClCompile Include="Preparacion.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Tratamiento.cpp" />
     <ClCompile Include="ziggurat.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="boxCountingClean.h" />
     <ClInclude Include="Constantes.h" />
     <ClInclude Include="funciones_inline.h" />
     <ClInclude Include="Generador.h" />
+    <ClInclude Include="getopt.h" />
+    <ClInclude Include="GLAux.h" />
+    <ClInclude Include="unistd.h" />
     <ClInclude Include="Ojos.h" />
+    <ClInclude Include="OpenGL.h" />
     <ClInclude Include="Preparacion.h" />
     <ClInclude Include="Tratamiento.h" />
     <ClInclude Include="Ventana.h" />

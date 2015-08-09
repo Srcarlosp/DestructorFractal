@@ -4,8 +4,6 @@ using namespace std;
 
 vector <punto> eraseFlow(struct puntos center, float radius, vector<puntos>(*vec)[DIM])
 {
-	printf("Hola mundo %f %f %f\n", center.x, center.y, radius);
-
 	//Se calculan un cuadrado que inscriba a la circunferencia
 	int maxx, maxy, minx, miny;
 	int rmaxx, rmaxy, rminx, rminy;
@@ -14,14 +12,10 @@ vector <punto> eraseFlow(struct puntos center, float radius, vector<puntos>(*vec
 	minx = floor((float)(center.x - radius) * DIM); 
 	miny = floor((float)(center.y - radius) * DIM);
 
-	//printf("Hola mundo\n %d\n %d\n %d\n %d\n", maxx, maxy, minx, miny);
-
 	rmaxx = maxx < DIM ? maxx : DIM-1;
 	rmaxy = maxy < DIM ? maxy : DIM-1;
 	rminx = minx > 0 ? minx : 0;
 	rminy = miny > 0 ? miny : 0;
-
-	//printf("Hola mundo\n %d\n %d\n %d\n %d\n", rmaxx, rmaxy, rminx, rminy);
 
 	//Se calcula el cuadrado inscrito en la circunferencia a partir de los datos del lado y el radio
 	int w = maxx - minx, h = maxy - miny;
@@ -40,14 +34,6 @@ vector <punto> eraseFlow(struct puntos center, float radius, vector<puntos>(*vec
 	}
 
 	vector<punto> flow;
-	/*
-	for (int i = rminx; i < (rmaxx); i++)
-		for (int j = rminy; j < rmaxy; j++)
-		{
-			punto p(i, j);
-			flow.push_back(p);
-		}
-	*/
 
 	for (int i = rminx; i < (rminx + seccion); i++)
 		for (int j = rminy; j < rmaxy; j++)
@@ -75,14 +61,39 @@ vector <punto> eraseFlow(struct puntos center, float radius, vector<puntos>(*vec
 			flow.push_back(p);
 		}
 
-	//printf("seccion %d\n", seccion);
-
 	for (int i = (rminx + seccion); i < (rmaxx - seccion); i++)
 		for (int j = (rminy + seccion); j < (rmaxy - seccion); j++)
 			vec[i][j].clear();
 
 	return flow;
 
+}
+
+int fullPointCounter(vector<puntos>(*vec)[DIM])
+{
+	int retCount = 0;
+	for (int i = 0; i < DIM; i++)
+		for (int ii = 0; ii < DIM; ii++)
+		{
+			retCount += vec[i][ii].size();
+		}
+	return retCount;
+}
+
+void createStateList(float ** espacio, vector<puntos>(*vec)[DIM])
+{
+	int fullCount = 0;
+	for (int i = 0; i < DIM; i++)
+		for (int ii = 0; ii < DIM; ii++)
+		{
+			int vcount = vec[i][ii].size();
+			for (int iii = 0; iii < vcount; iii++)
+			{
+				espacio[fullCount][0] = vec[i][ii][iii].x;
+				espacio[fullCount][1] = vec[i][ii][iii].y;
+				fullCount++;
+			}
+		}
 }
 
 void erasePoints(vector<punto> flow, vector<puntos>(*vec)[DIM], puntos center, float radius)
@@ -101,6 +112,7 @@ void erasePoints(vector<punto> flow, vector<puntos>(*vec)[DIM], puntos center, f
 		}
 		vec[flow[i].x][flow[i].y].swap(auxvec); //Intercambia los valores de un vector por los del otro
 	}
-
 }
+
+
 

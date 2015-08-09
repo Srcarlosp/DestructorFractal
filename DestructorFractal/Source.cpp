@@ -12,10 +12,14 @@
 #include "Generador.h"
 #include "Tratamiento.h"
 #include "glut.h"
+#include "OpenGL.h"
 #include "Ojos.h"
+#include "boxCountingClean.h"
 
 int j = 0;
+int limit = 0;
 circle *list_circles;
+char cadena[] = "hola mundo";
 void iterations();
 
 //////////////////////////////////////////////////////////
@@ -38,7 +42,7 @@ using namespace std;
 int cont = 0;
 int cont1 = 0;
 char char_cont[1000];
-const char fl[] = "Text.txt";
+const char fl[] = "fractal10_82.txt";
 
 vector<puntos> fractal[DIM][DIM];
 vector<flowPoint> flow;
@@ -57,71 +61,19 @@ int main(int argc, char* argv[])
 	
 	//////////////////////////////////////////////////////
 	//					Inicializacion					//
-	//circle *list_circles;
 
 	list_circles = randGenerator(MU, SIGMA);
-
 	prepareFile(fl, fractal);
-	for (int i = 0; i < fractal[0][0].size(); i++)
-	{
-		printf("Hola mundo %f %f\n", fractal[0][0][i].x, fractal[0][0][i].y);
-	}
 	flow = flowControlGenerator(DIM);
 	for (int i = 0; i < flow.size(); i++)
 	{
-		printf("Hola mundo %d %d %d %d\n", flow[i].dim, flow[i].x, flow[i].y, flow[i].deep);
 		segmentPropagation(fractal, flow[i]);
 	}
-	for (int i = 0; i < DIM; i++)
-		for (int ii = 0; ii < DIM; ii++)
-		{
-			printf("\nVECTOR %d %d\n\n", i, ii);
-			for (int iii = 0; iii < fractal[i][ii].size(); iii++)
-				printf("POINT %f %f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
-		}
 	
+	//printf("%f\n", boxCounting(fullPointCounter(fractal), fractal));
+	printf("%d\n", fullPointCounter(fractal));
+
 	//////////////////////////////////////////////////////
-	//iterations();
-
-	//puntos centro;
-	//centro.x = centro.y = 0.5;
-
-	//erasePoints(eraseFlow(centro, 0.2, fractal), fractal, centro, 0.2);
-
-	
-	for(cont = 0; cont<TOTAL_CICLES; cont++) //Numero total de ciclos de borrado
-	{
-		erasePoints(eraseFlow(list_circles[cont].center, list_circles[cont].radius, fractal), fractal, list_circles[cont].center, list_circles[cont].radius);
-
-		printf("CIRCULO %f %f %f\n", list_circles[cont].center.x, list_circles[cont].center.y, list_circles[cont].radius);
-		
-		/*
-		if(cont%CICLES == 0 && cont != 0) //Guardar los datos cada n ciclos de todo el proceso en un documento 
-		{
-			std::string name0 = "Fractal_Cicle_" + std::to_string(cont) + ".txt";
-			FILE * p = fopen( name0.data(), "w");
-
-			std::string name1 = "Circles_" + std::to_string(cont) + ".txt";
-			FILE * q = fopen( name1.data(), "w");
-
-			for(int i = 0; i < DIM; i++)
-			{
-				for(int ii = 0; ii < DIM; ii++)
-				{
-					for(int iii = 0; iii < fractal[i][ii].size(); iii++)
-					{
-						fprintf(p, "\t%f\t%f\n", fractal[i][ii][iii].x, fractal[i][ii][iii].y);
-						for(cont1 = cont - CICLES + 1; cont1 <= cont; cont1++)
-							fprintf(q, "\t%f\t%f\t%f\n", list_circles[cont1].center.x, list_circles[cont1].center.y, list_circles[cont1].radius);
-
-					}
-				}
-			}
-		}
-		fclose(p);
-		fclose(q);
-		*/
-	}
 
 
 	//////////////////////////////////////////////////////
@@ -141,6 +93,7 @@ void iterations()
 {
 	
 	erasePoints(eraseFlow(list_circles[j].center, list_circles[j].radius, fractal), fractal, list_circles[j].center, list_circles[j].radius);
+	limit++;
 	
 }
 
@@ -172,6 +125,18 @@ void OnDraw(void) {
 			}
 		}
 	}
+
+	for (int i = 0; i < limit; i++)
+	{
+		glColor3ub(255, 2, 2);
+		glTranslatef(((list_circles[i].center.x * VS_SCALE) - 50), 0, ((list_circles[i].center.y * VS_SCALE) - 50));
+		glutWireSphere(list_circles[i].radius  * VS_SCALE, 16, 16);
+		glTranslatef(-((list_circles[i].center.x * VS_SCALE) - 50),	0, -((list_circles[i].center.y * VS_SCALE) - 50));
+		glutSolidSphere;
+	}
+
+	OpenGL::Print(cadena, 0, 0, 250, 250, 250);
+
 	glEnable(GL_LIGHTING);
 
 	glutWireCube(100);
@@ -193,10 +158,15 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	if (key == 'n')
 	{
-		j++;
 		iterations();
+		j++;
+		printf("%d\n", fullPointCounter(fractal));
 	}
-		
+	if (key == 'b')
+	{
+		printf("%f\n", boxCounting(fullPointCounter(fractal), fractal));
+	}
+
 }
 
 //////////////////////////////////////////////////////

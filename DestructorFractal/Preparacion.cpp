@@ -60,6 +60,7 @@ int segmentPropagation(vector<puntos> (*vec)[DIM], flowPoint flow) //Funcion de 
 	return 1;
 }
 
+
 vector<flowPoint> flowControlGenerator(int dimIni)
 {
 	int dim = dimIni;
