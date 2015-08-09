@@ -6,6 +6,45 @@
 
 using namespace std;
 
+
+void createNamesFile(const char *file)
+{
+    int i, j, k, num[DIM], dim[DIM];
+    FILE *p;
+    for(i=10; i<20; i++){
+        num[i-10] = i;
+        dim[i-10] = i;
+    }
+    
+    p = fopen(file , "w");
+    
+    for(j=0;j<NUM;j++)
+        for(k=0; k<10; k++)
+            fprintf(p, "fractal%d_%d.txt\n", num[k], dim[j]);
+    
+    fclose(p);
+    
+}
+
+void createNamesList(const char *file)
+{
+    int i;
+    char names[NUM_FRACTALS][LEN];
+    FILE *p;
+    
+    p = fopen(file , "r");
+    
+    for(i=0; i<NUM_FRACTALS; i++)
+    {
+        fscanf(p, "%s\n", names[i]);
+        printf("%s\n", names[i]);
+    }	
+    
+    fclose(p);
+    
+}
+
+
 int prepareFile(const char *file, vector<puntos> (*vec)[DIM]) //Abre el archivo fractal y lo pone en la esquina superior de la matriz fractal
 {
 	puntos p;
