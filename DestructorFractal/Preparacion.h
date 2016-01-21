@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <string>
+
 #include "Constantes.h"
 
 using namespace std;
@@ -25,3 +27,5 @@ Funciona aumetando la profundidad paso a paso hasta que la dimension de la subma
 en el siguente siguendo una progresion cubica, correspondiendo estos a una matris inscrita en la inicial.
 */
 vector<flowPoint> flowControlGenerator(int dimIni); //Genera un vector con las posiciones y el orden a comprobar
+
+string initDataFile(const char *fractalName);

@@ -1,6 +1,8 @@
 #include "Tratamiento.h"
 
 using namespace std;
+ofstream outFile;
+
 
 vector <punto> eraseFlow(struct puntos center, float radius, vector<puntos>(*vec)[DIM])
 {
@@ -112,6 +114,18 @@ void erasePoints(vector<punto> flow, vector<puntos>(*vec)[DIM], puntos center, f
 		}
 		vec[flow[i].x][flow[i].y].swap(auxvec); //Intercambia los valores de un vector por los del otro
 	}
+}
+
+////////////////////////////////////////////////////////////////
+
+int writeDataFile(string name, float percentage, float dimension, int limit)//Escribe los datos en el fichero
+{
+
+	outFile.open(name, std::ios::app); //Abrimos el fichero y buscamos el final del documento
+	outFile << percentage << "\t" << dimension << "\t" << limit << "\n" << endl; //Escribe los datos en formato "porcentaje que queda"-"dimension fractal"-"n iteraciones"
+	outFile.close();
+	
+	return 0;
 }
 
 

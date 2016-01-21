@@ -3,6 +3,7 @@
 //La dimension debe ser simepre 2^n siendo n cualquier entero 
 const int DIM = 256;	//Numero de divisiones de la cuadrícula
 
+const int INITIAL_POINTS = 40000;
 const int CICLES = 20;
 const int TOTAL_CICLES = 10;
 const int NUM_CIRCLES = 1000; //Número de círculos para eliminar puntos

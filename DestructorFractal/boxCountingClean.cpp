@@ -148,20 +148,20 @@ int k=0,c[AJUSTE],m,cn,kmax=AJUSTE; /*cambio 7 por  AJUSTE para obtener un punto
         
                 }
      	/*abrir el fichero resumen*/
- if((resumen=fopen("resumendim2.txt","a"))==NULL){printf("problemas de apertura del fichero resumendim2.txt");}  
+ //if((resumen=fopen("resumendim2.txt","a"))==NULL){printf("problemas de apertura del fichero resumendim2.txt");}  
        
  /* construimos los valores de x= log(2)*k,y=log(c(k)) para el ajuste*/
 	for(k=K0;k<kmax;k++){x[k]=log(2.0)*k; /*cambio 7 por AJUSTE para obtener un punto más para el ajuste*/
 					y[k]=log((double)c[k]);
-					fprintf(resumen,"el valor de c(%d)=%d, x(%d)=%0.4f\t y(%d)=%0.4f\n",k,c[k],k,x[k],k,y[k]);
+					//fprintf(resumen,"el valor de c(%d)=%d, x(%d)=%0.4f\t y(%d)=%0.4f\n",k,c[k],k,x[k],k,y[k]);
 					}
 /*ajustamos*/
 minsqrFit(kmax-K0,x+K0,y+K0,arw,&lin_0,&lin_m);/*cambio 7 por AJUSTE para obtener un punto más para el ajuste*/
 
-printf("dimension delta=2^(-(%d -1)) m=%0.4f\n",kmax, lin_m);
-fprintf(resumen,"dimension delta=2^(-(%d -1)) m=%0.4f\n",kmax,lin_m);
+//printf("dimension delta=2^(-(%d -1)) m=%0.4f\n",kmax, lin_m);
+//fprintf(resumen,"dimension delta=2^(-(%d -1)) m=%0.4f\n",kmax,lin_m);
    	/*cierro el fichero resumen*/
-	fclose(resumen);
+	//fclose(resumen);
 
 return	lin_m;
 

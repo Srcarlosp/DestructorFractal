@@ -1,12 +1,15 @@
-
-#include "Preparacion.h"
-#include "Constantes.h"
 #include <vector>
 #include <cstdio>
 #include <cstring>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+
+#include "Preparacion.h"
+#include "Constantes.h"
 
 using namespace std;
-
 
 void createNamesFile(const char *file)
 {
@@ -50,8 +53,14 @@ void createNamesList(const char *file, vector<char *> *names)
 
 int prepareFile(const char *file, vector<puntos> (*vec)[DIM]) //Abre el archivo fractal y lo pone en la esquina superior de la matriz fractal
 {
+	int i, j;
 	puntos p;
 	FILE * ofile = fopen(file,"r");
+
+	for (i = 0; i < DIM; i++)
+		for (j = 0; j < DIM;j++)
+			vec[i][j].clear();
+
 	while (fscanf(ofile, "%f %f", &p.x, &p.y) != EOF)
 		vec[0][0].push_back(p);
 	return 1;
@@ -127,4 +136,26 @@ vector<flowPoint> flowControlGenerator(int dimIni)
 		e *= 2;
 	}
 	return vec;
+}
+
+////////////////////////////////////////////////////////////////
+
+string initDataFile(const char *cFractalName)//Inicializa el archivo que se va a utilizar para guardar los datos
+{
+	ofstream outFile;
+
+	string sval; //Usamos sstream para convertir la media y varianza en strings
+	ostringstream convert;
+
+	string sFractalName = string(cFractalName, 0, 20);//Transformamos el char* en string, el tercer parámetro indica la longitud del char*
+
+	convert << "_m" << MU * 1000 << "_v" << SIGMA * 1000;
+	sval = convert.str();
+
+	sFractalName.insert(sFractalName.size() - 4, sval);//Insertamos los valores en el string
+
+	outFile.open(sFractalName); //El nombre del fichero generado tiene el formato fractal"numero"_"dimension"_m"media"_v"varianza".txt
+	outFile.close();
+
+	return sFractalName;
 }

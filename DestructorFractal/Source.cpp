@@ -18,7 +18,9 @@
 
 
 int j = 0;
-int limit = 0;
+int limit = 0, _percentage = 100, fractalNum = 0;
+float percentage = 100 , dimension;
+string dataFile;
 circle *list_circles;
 char cadena[10], namesFile[] = "Nombres.txt";
 vector<char *> names;
@@ -63,8 +65,8 @@ int main(int argc, char* argv[])
 	createNamesList(namesFile, &names);
 
 	list_circles = randGenerator(MU, SIGMA);
-	printf("%s\n", names[6]);
-	prepareFile(names[1], fractal); //lista de nombres en el 5, para debug
+	printf("%s\n", names[fractalNum]);
+	prepareFile(names[fractalNum], fractal); //lista de nombres en el 5, para debug
 
 	flow = flowControlGenerator(DIM);
 	for (int i = 0; i < flow.size(); i++)
@@ -72,9 +74,15 @@ int main(int argc, char* argv[])
 		segmentPropagation(fractal, flow[i]);
 	}
 
-	//printf("%f\n", boxCounting(fullPointCounter(fractal), fractal));
-	printf("%d\n", fullPointCounter(fractal));
+	/////////////////////////////////////////////////////////
+	dataFile = initDataFile(names[fractalNum]);
 
+	dimension = boxCounting(fullPointCounter(fractal), fractal);
+	writeDataFile(dataFile, percentage, dimension, limit);
+	fractalNum++;
+	
+	printf("Numero total de puntos: %d\n", fullPointCounter(fractal));
+	printf("%f\n", dimension);
 	//////////////////////////////////////////////////////
 
 
@@ -90,8 +98,44 @@ void iterations()
 {
 
 	erasePoints(eraseFlow(list_circles[j].center, list_circles[j].radius, fractal), fractal, list_circles[j].center, list_circles[j].radius);
+	percentage = (float) 100 * fullPointCounter(fractal) / INITIAL_POINTS;
+	printf("%f\n", percentage);
 	limit++;
+	if (_percentage - percentage >= 0.01)
+	{
+		_percentage = (int) percentage;
+		dimension = boxCounting(fullPointCounter(fractal), fractal);
+		writeDataFile(dataFile, percentage, dimension, limit);
+	}
+	if (_percentage < 75)
+	{
+		limit = 0;
 
+		list_circles = randGenerator(MU, SIGMA);
+		printf("%s\n", names[fractalNum]);
+		prepareFile(names[fractalNum], fractal); //lista de nombres en el 5, para debug
+
+		flow = flowControlGenerator(DIM);
+		for (int i = 0; i < flow.size(); i++)
+		{
+			segmentPropagation(fractal, flow[i]);
+		}
+
+		_percentage = 100;
+		percentage = 100;
+
+		/////////////////////////////////////////////////////////
+		dataFile = initDataFile(names[fractalNum]);
+
+		dimension = boxCounting(fullPointCounter(fractal), fractal);
+		writeDataFile(dataFile, percentage, dimension, limit);
+
+		printf("Numero total de puntos: %d\n", fullPointCounter(fractal));
+		printf("%f\n", dimension);
+
+		fractalNum++;
+	}
+	
 }
 
 //////////////////////////////////////////////////////
@@ -155,16 +199,22 @@ void OnTimer(int value) //poner aqui el codigo de animacion
 //Interfaz
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
+	int i;
 	if (key == 'n')
 	{
-		iterations();
-		j++;
-		printf("%d\n", fullPointCounter(fractal));
+		for (i = 0; i < 20; i++)
+		{
+			iterations();
+			j++;
+		}
 	}
+	/*
 	if (key == 'b')
 	{
-		itoa(boxCounting(fullPointCounter(fractal), fractal) * 10000, cadena, 10);
+		dimension = boxCounting(fullPointCounter(fractal), fractal);
+		itoa(dimension * 10000, cadena, 10);
 	}
+	*/
 
 }
 
